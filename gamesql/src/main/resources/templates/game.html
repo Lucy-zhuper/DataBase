@@ -1,0 +1,82 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a href="/market">浏览市场</a>
+</div>
+<div>
+    <a href="/storage">浏览存储箱</a>
+</div>
+<div>
+    <a href="/treasure">浏览宝物</a>
+</div>
+<div>
+    用户名:<span th:text="${user.getName()}"></span>
+    <div>
+    <span>
+        <button onclick="treasureHunt(this.getAttribute('username'))" th:username="${user.getName()}">寻宝</button>
+        <button onclick="work(this.getAttribute('username'))" th:username="${user.getName()}">赚钱</button>
+    </span>
+    </div>
+</div>
+
+<div>
+    余额: <span th:text="${user.balance}"></span>
+</div>
+<div>
+    能力值：<span th:text="${user.ability}"></span>
+</div>
+<div>
+    运气值：<span th:text="${user.luck}"></span>
+</div>
+<div>
+    工具：
+    <div>
+        宝物名：<span th:text="${tool.getTreasureName()}"></span>
+        宝物价值：<span th:text="${tool.getValue()}"></span>
+        宝物属性: <span th:text="${tool.getAttribute()}"></span>
+    </div>
+
+</div>
+<div>
+    配饰：
+    <div>
+        宝物名：<span th:text="${decoration.getTreasureName()}"></span>
+        宝物价值：<span th:text="${decoration.getValue()}"></span>
+        宝物属性: <span th:text="${decoration.getAttribute()}"></span>
+    </div>
+</div>
+
+<script>
+    function work(username){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/work/'+username,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+            // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+    function treasureHunt(username){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/hunt/'+username,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+            // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/storage'
+            }
+        }
+        xhr.send()
+    }
+</script>
+
+</body>
+</html>

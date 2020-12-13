@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>市场</title>
+</head>
+<body>
+<!--<div>-->
+<!--    市场:<span th:text="目前没有出售的宝物"></span>-->
+<!--</div>-->
+<div id="div2">
+    市场：<div th:each="t : ${marketList}">
+    宝物拥有者：<span th:text="${t.getUserName()}"></span>
+    宝物名: <span th:text="${t.getTreasureName()}"></span>
+    宝物价格：<span th:text="${t.getPrice()}"></span>
+    宝物数量：<span th:text="${t.number}"></span>
+    <span>
+        <button onclick="buy(this.getAttribute('buyer'),this.getAttribute('seller'),this.getAttribute('treasureName'),this.getAttribute('price'))" th:buyer="${uid}" th:seller="${t.getUserName()}" th:treasureName="${t.getTreasureName()}" th:price="${t.getPrice()}">购买</button>
+<!--        <button>购买</button>-->
+    </span>
+</div>
+</div>
+<script>
+    function buy(buyer,seller,treasureName,price){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/buy/'+buyer+'/'+seller+'/'+treasureName+'/'+price,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+            // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>宝物</title>
+</head>
+<body>
+<div>
+    宝物：
+    <div th:each="t : ${treasureList}">
+        宝物名: <span th:text="${t.getTreasureName()}"></span>
+        宝物价值：<span th:text="${t.value}"></span>
+        宝物属性：<span th:text="${t.attribute}"></span>
+    </div>
+</div>
+</body>
+</html>

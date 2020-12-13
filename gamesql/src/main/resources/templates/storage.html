@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>存储箱</title>
+</head>
+<body>
+<div>
+    存储箱：
+    <div th:each="t : ${storageList}">
+        宝物名: <span th:text="${t.getTreasureName()}"></span>
+        宝物数量：<span th:text="${t.number}"></span>
+        <span >
+            <button onclick="wear(this.getAttribute('username'),this.getAttribute('treasureName'))" th:username="${t.getUserName()}" th:treasureName="${t.getTreasureName()}">装备</button>
+            <button onclick="underwear(this.getAttribute('username'),this.getAttribute('treasureName'))" th:username="${t.getUserName()}" th:treasureName="${t.getTreasureName()}">取消装备</button>
+            <button onclick="sell(this.getAttribute('username'),this.getAttribute('treasureName'))" th:username="${t.getUserName()}" th:treasureName="${t.getTreasureName()}">出售</button>
+            <button onclick="cancelsell(this.getAttribute('username'),this.getAttribute('treasureName'))" th:username="${t.getUserName()}" th:treasureName="${t.getTreasureName()}">取消出售</button>
+        </span>
+    </div>
+</div>
+<script>
+    function wear(username,treasureName){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/wear/'+username+'/'+treasureName,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+            // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+    function underwear(username,treasureName){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/underwear/'+username+'/'+treasureName,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+            // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+    function sell(username,treasureName) {
+        var xhr = new XMLHttpRequest();
+        var price = prompt("出售价格(默认为  10)",10)
+        xhr.open('GET','http://localhost:8080/users/sell/'+username+'/'+treasureName+'/'+price,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+    function cancelsell(username,treasureName) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/cancelsell/'+username+'/'+treasureName+'/'+price,true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                // 从服务器获得数据
+                console.log(xhr.responseText)
+                window.location.href = '/'
+            }
+        }
+        xhr.send()
+    }
+</script>
+</body>
+</html>
